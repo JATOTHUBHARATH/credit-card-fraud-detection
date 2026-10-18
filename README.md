@@ -36,10 +36,7 @@ Machine learning project to detect fraudulent credit card transactions on a high
 The model's fraud scores are well separated, so raising the threshold to 0.9 cuts false alarms from 14 to 8 while losing only 2 caught frauds. The remaining missed frauds get very low probabilities, which is a limit of the features rather than the threshold.
 
 ## Visuals
-![Confusion matrix](image.png/confusion_matrix.png)
-![PR curves](image.png/pr_curves.png)
-![SHAP](image.png/shap_plot.png)
-![App: fraud flagged](image.png/app_fraud.png)
+
 
 
 ## Key insights
