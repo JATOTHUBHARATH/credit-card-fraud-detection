@@ -15,27 +15,40 @@ Machine learning project to detect fraudulent credit card transactions on a high
 7. Explained predictions with SHAP and tuned the decision threshold
 
 ## Results
-| Model | PR-AUC | ROC-AUC |
-|---|---|---|
-| Logistic Regression | | |
-| Logistic Regression + SMOTE | | |
-| Random Forest | | |
-| XGBoost | | |
+| Model | PR-AUC (Average Precision) |
+|---|---|
+| XGBoost | 0.88 |
+| Random Forest | 0.86 |
+| Logistic Regression | 0.74 |
+| Logistic Regression + SMOTE | 0.72 |
 
-Best model: XGBoost, [recall]% recall and [precision]% precision at threshold [t].
+**Best model: XGBoost.** On the held-out test set (56,962 transactions, 98 frauds) at threshold 0.5, it caught 83 of 98 frauds (84.7% recall) with 87.4% precision, raising only 12 false alarms among 56,864 normal transactions.
+
+
+### Threshold trade-off (XGBoost)
+| Threshold | Precision | Recall | Frauds caught | False alarms |
+|---|---|---|---|---|
+| 0.3 | 85.6% | 84.7% | 83/98 | 14 |
+| 0.5 | 87.4% | 84.7% | 83/98 | 12 |
+| 0.7 | 88.2% | 83.7% | 82/98 | 11 |
+| 0.9 | 91.0% | 82.7% | 81/98 | 8 |
+
+The model's fraud scores are well separated, so raising the threshold to 0.9 cuts false alarms from 14 to 8 while losing only 2 caught frauds. The remaining missed frauds get very low probabilities, which is a limit of the features rather than the threshold.
 
 ## Visuals
-![Confusion matrix](confusion_matrix.png)
-![PR curves](pr_curves.png)
-![SHAP](shap_plot.png)
-![App: fraud flagged](app_fraud.png)
-![App: normal](app_normal.png)
+![Confusion matrix](image.png/confusion_matrix.png)
+![PR curves](image.png/pr_curves.png)
+![SHAP](image.png/shap_plot.png)
+![App: fraud flagged](image.png/app_fraud.png)
 
 
 ## Key insights
-- Accuracy is misleading here: predicting "not fraud" every time scores about 99.8%.
-- Lowering the threshold catches more fraud but raises false alarms.
-- [Top SHAP features] drive the fraud predictions.
+- Accuracy is misleading here: predicting "not fraud" every time scores about 99.8%, so models were compared on PR-AUC, precision and recall.
+- Tree-based models (XGBoost, Random Forest) clearly outperformed Logistic Regression, even when SMOTE was applied to the linear model.
+- SHAP shows the most influential features are V14, V4, V12, V10 and V8. Low values of V14 and V12 and high values of V4 push predictions toward fraud.
+- Lowering the decision threshold catches more fraud but raises false alarms, a trade-off the demo app lets you explore with a slider.
+
+- - Raising the decision threshold from 0.3 to 0.9 raised precision from 85.6% to 91.0% while recall only fell from 84.7% to 82.7%.
 
 ## Run the demo
 ```
