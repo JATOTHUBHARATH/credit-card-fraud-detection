@@ -37,6 +37,11 @@ The model's fraud scores are well separated, so raising the threshold to 0.9 cut
 
 ## Visuals
 
+![Confusion matrix](confusion_matrix.png)
+![PR curves](pr_curves.png)
+![SHAP](shap_plot.png)
+![App: fraud flagged](app_fraud.png)
+![App: normal](app_normal.png)
 
 
 ## Key insights
